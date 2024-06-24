@@ -2,6 +2,16 @@ name: CI
 on: [push, pull_request]
 
 jobs:
+  repo-scan:
+    name: trivy repo scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@0.23.0
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
   unit-tests:
     name: Unit tests
     strategy:
@@ -19,8 +29,7 @@ jobs:
           pipx install pyflakes
           shellcheck --version
           pyflakes --version
-        if: ${{ matrix.os == 'macos-latest' }}
-        
+        if: ${{ matrix.os == 'macos-latest' }}        
       - name: Install dependencies on Linux
         run: |
           set -x
@@ -124,5 +133,12 @@ jobs:
           --mount type=bind,source="$(pwd)",target=/mnt/app
           --workdir /mnt/app
           -- ${{ steps.image.outputs.digest }} -color -verbose
+      - name: Trivy docker scan
+        uses: aquasecurity/trivy-action@0.23.0
+        with:
+          image-ref: ${{ steps.image.outputs.digest }}
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
       - name: Lint Dockerfile with hadolint
         run: docker run --rm -i hadolint/hadolint hadolint --ignore DL3018 --strict-labels - < Dockerfile
