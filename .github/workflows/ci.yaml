@@ -20,6 +20,7 @@ jobs:
           shellcheck --version
           pyflakes --version
         if: ${{ matrix.os == 'macos-latest' }}
+        
       - name: Install dependencies on Linux
         run: |
           set -x
