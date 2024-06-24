@@ -10,7 +10,7 @@ jobs:
         uses: aquasecurity/trivy-action@0.23.0
         with:
           scan-type: 'fs'
-          ignore-unfixed: true
+          #ignore-unfixed: true
           format: 'table'
   unit-tests:
     name: Unit tests
@@ -139,6 +139,6 @@ jobs:
           image-ref: ${{ steps.image.outputs.digest }}
           format: 'table'
           exit-code: '1'
-          ignore-unfixed: true
+          #ignore-unfixed: true
       - name: Lint Dockerfile with hadolint
         run: docker run --rm -i hadolint/hadolint hadolint --ignore DL3018 --strict-labels - < Dockerfile
