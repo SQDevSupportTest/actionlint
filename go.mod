@@ -8,7 +8,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13
 	github.com/mattn/go-runewidth v0.0.15
 	github.com/robfig/cron/v3 v3.0.1
-	github.com/yuin/goldmark v1.7.1
+	github.com/yuin/goldmark v1.7.4
 	golang.org/x/sync v0.7.0
 	golang.org/x/sys v0.20.0
 	gopkg.in/yaml.v3 v3.0.1
